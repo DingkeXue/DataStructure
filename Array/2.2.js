@@ -68,8 +68,9 @@ class Arrays {
             this.data[i] = this.data[i+1];
         }
         this.size--;
-        if (this.size <= this.data.length / 4) {
-            this.resize(this.data.length / 4);
+        // 对数组进行缩容
+        if (this.size === this.data.length / 4 && this.data.length / 2 !== 0) {
+            this.resize(this.data.length / 2);
         }
         return e;
     }
