@@ -35,17 +35,27 @@ class Arrays {
 
     // 在 index 位置插入 新元素 e
     add(index, e) {
-        if (this.size === this.data.length) {
-            throw 'Add failed. Array is full';
-        }
         if (index < 0 || index > this.size) {
             throw 'Add failed. Index should >= 0 and <= size';
+        }
+        // 如果数组数组长度不够，动态增加数组的长度
+        if (this.size === this.data.length) {
+            this.resize(2 * this.data.length);
         }
         for(let i = this.size - 1; i >= index; i--) {
             this.data[i+1] = this.data[i];
         }
         this.data[index] = e;
         this.size++;
+    }
+
+    // 动态增加 data 数组长度
+    resize(newCapacity) {
+        let newArr = new Array(newCapacity);
+        for (let i = 0; i < this.size; i++) {
+            newArr[i] = this.data[i];
+        }
+        this.data = newArr;
     }
 
     // 删除位于 index 的元素
@@ -58,6 +68,9 @@ class Arrays {
             this.data[i] = this.data[i+1];
         }
         this.size--;
+        if (this.size <= this.data.length / 4) {
+            this.resize(this.data.length / 4);
+        }
         return e;
     }
 
@@ -120,11 +133,10 @@ class Arrays {
     }
 }
 
-let arr = new Arrays(20);
+let arr = new Arrays(3);
 for(let i = 0; i < 3; i++) {
     arr.addLast(i);
 }
 arr.addFirst(100);
 
-console.log(arr.delete(1));
 console.log(arr);
